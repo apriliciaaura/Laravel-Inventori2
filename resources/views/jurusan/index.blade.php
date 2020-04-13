@@ -27,6 +27,10 @@
             <a href="{{ route('jurusan.create') }}">
               <button type="button" class="btn btn-primary">Add New</button>
             </a>
+            &nbsp
+            <a href="{{ route('jurusan.export') }}">
+            <button type="button" class="btn btn-primary">Export Excel</button>
+            </a>
           </div>
           <div class="card-body">
             <table class="table table-bordered">
