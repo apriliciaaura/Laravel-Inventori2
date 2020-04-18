@@ -1,5 +1,4 @@
 @extends('layouts.adminmain')
-
 @section('content')
 <section class="section">
   
@@ -25,34 +24,40 @@
           </div>
            @if(auth()->user()->role == 'admin')
           <div class="card-header">
+            <div class="form-group">
             <a href="{{ route('barang.create') }}">
               <button type="button" class="btn btn-primary">Add New</button>
             </a>
-          </div>
+            &nbsp
+            <a href="{{ route('barang.export') }}">
+            <button type="button" class="btn btn-success my-3">Export Excel</button>
+            </a>
+          </div></div>
+           
           <div class="card-body">
-            <table class="table table-bordered">
-              <thead>
-                <tr>
-                  <th scope="col">No</th>
-                  <th scope="col">Barang</th>
-                  <th scope="col">Ruangan</th>
-                  <th scope="col">Total</th>
-                  <th scope="col">Rusak</th>
-                  <th scope="col">Created by</th>
-                  <th scope="col">Updated by</th>
-                  <th scope="col">Action</th>
-                </tr>
-              </thead>
-              <tbody>
-               @forelse($data as $key => $barang)
-                <tr>
-                  <td>{{ $key + 1 }}</td>
-                  <td>{{ $barang->nama_barang }}</td>
-                  <td>{{ $barang->ruangan->nama_ruangan }}</td>
-                  <td>{{ $barang->total }}</td>
-                  <td>{{ $barang->broken }}</td>
-                  <td>
-                    @foreach($user as $userdata)
+          <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">No</th>
+                            <th scope="col">Barang</th>
+                            <th scope="col">Ruangan</th>
+                            <th scope="col">Total</th>
+                            <th scope="col">Rusak</th>
+                            <th scope="col">Created by</th>
+                            <th scope="col">Updated by</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse($data as $key => $barang)
+                            <tr>
+                                <td>{{ $data->firstItem()+$key }}</td>
+                                <td>{{ $barang->nama_barang }}</td>
+                                <td>{{ $barang->ruangan->nama_ruangan }}</td>
+                                <td>{{ $barang->total }}</td>
+                                <td>{{ $barang->broken }}</td>
+                                <td>
+                                  @foreach($user as $userdata)
                                     @if($userdata->id == $barang->created_by)
                                       {{$userdata->name}}
                                     @endif
@@ -66,26 +71,29 @@
                                     @endforeach
                                 </td>
                                 <td>
-                  <a href="{{ route('barang.edit', ['id_barang' => $barang->id_barang]) }}">
-                    <button type="button" class="btn btn-sm btn-info">Edit</button>
-                  </a>
-                  @if(auth()->user()->role == 'admin')
-                  <a href="{{ route('barang.delete', ['id_barang' => $barang->id_barang]) }}" onclick="return confirm('Delete data?');">
-                    <button type="button" class="btn btn-sm btn-danger">Hapus</button>
-                  </a>
-                </tr>
-               
-                <tr>
-                  <td colspan="3"><center>Data kosong</center></td>
-                </tr>
-                @endforelse
-              </tbody>
-            </table>
+                                    <a href="{{ route('barang.edit', ['id_barang' => $barang->id_barang]) }}">
+                                        <button type="button" class="btn btn-sm btn-warning">Edit</button> </a> 
+                                     
+                                    <a href="{{ route('barang.delete', ['id_barang' => $barang->id_barang]) }}"
+                                    onclick="return confirm('Delete data?');" 
+                                    >
+                                    <button type="button" class="btn btn-sm btn-danger">Hapus</button>
+                                    </a>
+                                   
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="8"><center>Data kosong</center></td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            {!!$data->links()!!}
           </div>
           <div class="card-footer text-right">
             <nav class="d-inline-block">
             </nav>
-            {{ $data->links() }}
           </div>
         </div>
       </div>  

@@ -16,9 +16,12 @@ class RuanganController extends Controller
      */
     public function index(Request $request)
     {
-        $search = $request->get('search');
-        $data = Ruangan::where('nama_ruangan', 'like', '%' .$search. '%')->paginate(5);
-        return view('ruangan.index', ['data' => $data]);
+        $data = Ruangan::when($request->search, function($query) use($request){
+            $query->where('nama_ruangan', 'LIKE', '%'.$request->search.'%')
+             ->orWhere('nama_jurusan', 'LIKE', '%'.$request->search.'%');
+        })->join('jurusan', 'id_jurusan', '=', 'ruangan.jurusan_id')->orderBy('id_ruangan', 'asc')->paginate(5);
+
+        return view('ruangan.index', compact('data'));
     }
 
     /**
@@ -105,9 +108,11 @@ class RuanganController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function delete($id)
+    public function delete($id_ruangan)
     {
-        Ruangan::whereId($id)->delete();
+        $data = Ruangan::findOrFail($id_ruangan);
+        $data->delete();
+
         return redirect()->route('ruangan.index');
     }
 }

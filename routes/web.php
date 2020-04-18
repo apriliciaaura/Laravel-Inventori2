@@ -18,22 +18,19 @@ Route::get('dashboard', function () {
 })->name('dashboard');
 
 Route::get('/', function () {
-    return view('/fakultas.index');
+    return view('dashboard.index');
 });
 
-Route::post('/postlogin', 'AuthController@login');
+Route::post('/postlogin', 'AuthController@login')->name('postlogin');
+Route::get('/login', 'AuthController@login')->name('login');
+Route::get('/logout', 'AuthController@logout');
 
-Route::get('/login', 'AuthController@loginform')->name('login');
-Route::get('signout', ['as' => 'auth.signout', 'uses' => 'Auth\loginController@signout']);
-
-Route::group(['middleware' => 'admin.only'], function(){
 Route::get('fakultas', ['as' => 'fakultas.index', 'uses' => 'FakultasController@index']);
 Route::get('fakultas/create', ['as' => 'fakultas.create', 'uses' => 'FakultasController@create']);
 Route::post('fakultas', ['as' => 'fakultas.store', 'uses' => 'FakultasController@store']);
 Route::get('fakultas/edit/{id}', ['as' => 'fakultas.edit', 'uses' => 'FakultasController@edit']);
 Route::put('fakultas/edit/{id}', ['as' => 'fakultas.update', 'uses' => 'FakultasController@update']);
 Route::get('fakultas/delete/{id}', ['as' => 'fakultas.delete', 'uses' => 'FakultasController@delete']);
-});
 
 Route::get('jurusan', ['as' => 'jurusan.index', 'uses' => 'JurusanController@index']);
 Route::get('jurusan/create', ['as' => 'jurusan.create', 'uses' => 'JurusanController@create']);
@@ -41,7 +38,6 @@ Route::post('jurusan', ['as' => 'jurusan.store', 'uses' => 'JurusanController@st
 Route::get('jurusan/edit/{id_jurusan}', ['as' => 'jurusan.edit', 'uses' => 'JurusanController@edit']);
 Route::put('jurusan/edit/{id_jurusan}', ['as' => 'jurusan.update', 'uses' => 'JurusanController@update']);
 Route::get('jurusan/delete/{id_jurusan}', ['as' => 'jurusan.delete', 'uses' => 'JurusanController@delete']);
-Route::get('export', ['as' => 'jurusan.export', 'uses' => 'JurusanController@export']);
 
 Route::get('ruangan', ['as' => 'ruangan.index', 'uses' => 'RuanganController@index']);
 Route::get('ruangan/create', ['as' => 'ruangan.create', 'uses' => 'RuanganController@create']);
@@ -56,4 +52,4 @@ Route::post('barang', ['as' => 'barang.store', 'uses' => 'BarangController@store
 Route::get('barang/edit/{id_barang}', ['as' => 'barang.edit', 'uses' => 'BarangController@edit']);
 Route::put('barang/edit/{id_barang}', ['as' => 'barang.update', 'uses' => 'BarangController@update']);
 Route::get('barang/delete/{id_barang}', ['as' => 'barang.delete', 'uses' => 'BarangController@delete']);
-
+Route::get('export', ['as' => 'barang.export', 'uses' => 'BarangController@export']);

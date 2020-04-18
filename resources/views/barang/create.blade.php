@@ -42,7 +42,7 @@
                     <input type="text" name="broken" class="form-control input-lg" />
             </div>
             <div class="form-group">
-                <input type="text" class="form-control" name="created_by" id="created_by" value="{{auth()->user()->id}}" hidden>
+                <input type="text" class="form-control" name="created_by" id="created_by" hidden>
             </div>
               <div class="form-group">
                 <button type="submit" class="btn btn-primary">ADD</button>

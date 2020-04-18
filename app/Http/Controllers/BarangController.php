@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Barang;
+use App\Ruangan;
+use App\User;
+use App\Exports\BarangExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class BarangController extends Controller
 {
@@ -14,9 +18,17 @@ class BarangController extends Controller
      */
     public function index(Request $request)
     {
-        $search = $request->get('search');
-        $data = Barang::where('nama_barang', 'like', '%' .$search. '%')->paginate(5);
-        return view('barang.index', ['data' => $data]);
+       $data = Barang::when($request->search, function($query) use($request){
+            $query->where('nama_barang', 'LIKE', '%'.$request->search.'%')
+             ->orWhere('nama_ruangan', 'LIKE', '%'.$request->search.'%')
+             ->orWhere('total', 'LIKE', '%'.$request->search.'%')
+             ->orWhere('broken', 'LIKE', '%'.$request->search.'%');
+        })->join('ruangan', 'id_ruangan', '=', 'barang.ruangan_id')->orderBy('id_barang', 'asc')->paginate(5);
+
+        $ruangan = Ruangan::all();
+        $user = User::all();
+
+        return view('barang.index', compact('data', 'ruangan', 'user'));
     }
 
     /**
@@ -26,8 +38,8 @@ class BarangController extends Controller
      */
     public function create()
     {
-        $barang = Barang::all()->sortBy('nama_barang');
-        return view('barang.create', compact('barang'));
+        $ruangan = Ruangan::all()->sortBy('nama_ruangan');
+        return view('barang.create', compact('ruangan'));
     }
 
     /**
@@ -43,7 +55,6 @@ class BarangController extends Controller
         $barang->total = $request->total;
         $barang->broken = $request->broken;
         $barang->created_by = $request->created_by;
-        // $barang->updated_by = $request->updated_by;
         $barang->ruangan_id = $request->ruangan_id;
         $barang->save();
 
@@ -67,7 +78,7 @@ class BarangController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id_barang)
     {
         $ruangan = \App\Ruangan::all();
         $barang = Barang::findOrFail($id_barang);
@@ -81,9 +92,9 @@ class BarangController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id_ruangan)
     {
-        $barang = Barang::find($id_barang);
+        $barang = Barang::find($id_ruangan);
         $barang->nama_barang = $request->input('nama_barang');
         $barang->ruangan_id = $request->input('ruangan_id');
         $barang->total = $request->input('total');
@@ -105,5 +116,10 @@ class BarangController extends Controller
        $data = Barang::findOrFail($id);
        $data->delete();
        return redirect()->route('barang.index');
+    }
+
+    public function export(Request $request)
+    {
+        return Excel::download(new BarangExport, 'barang-'.date("Y-m-d").'.xlsx');
     }
 }

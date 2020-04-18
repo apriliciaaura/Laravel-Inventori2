@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
 use Auth;
-
 use App\User;
 
 class AuthController extends Controller
@@ -20,28 +18,20 @@ class AuthController extends Controller
         return redirect('/');
     }
 
-    public function login(Request $request){
+    public function login()
+    {
+        return view('auth.login');
+    }
+
+    public function postlogin(Request $request){
     	if (Auth::attempt($request->only('email', 'password'))) {
-
     		return redirect('/dashboard');
-
     	}
-        dd('salah');
-
-    	return redirect('/')->with('errors', 'email atau password salah !');
+    	return redirect('/login');
     }
 
     public function logout(){
     	Auth::logout();
-    	return redirect('/');
+    	return redirect('/login');
     }
-
-    public function loginform(){
-    	return view('auth.login');
-    }
-
-    public function registerform(){
-    	return view('auth.register');
-    }
-
 }

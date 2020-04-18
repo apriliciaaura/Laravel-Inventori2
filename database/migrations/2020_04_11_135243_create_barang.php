@@ -27,11 +27,11 @@ class CreateBarang extends Migration
                     ->onDelete('cascade')
                     ->onUpdate('cascade');
 
-            $table->foreign('created_by')->references('id')->on('users')
+            $table->foreign('created_by')->references('id_user')->on('users')
                     ->onDelete('cascade')
                     ->onUpdate('cascade');
 
-            $table->foreign('updated_by')->references('id')->on('users')
+            $table->foreign('updated_by')->references('id_user')->on('users')
                     ->onDelete('cascade')
                     ->onUpdate('cascade');
         });

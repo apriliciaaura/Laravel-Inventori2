@@ -20,17 +20,17 @@
           </a>
           </div>
           <div class="card-body">
-            <form action="{{ route('barang.update', ['id_barang' => $data->id_barang]) }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('barang.update', ['id_barang' => $barang->id_barang]) }}" method="POST" enctype="multipart/form-data">
               <input type="hidden" name="_method" value="PUT">
               @csrf
               <div class="form-group">
                 <label>Barang</label>
-                <input type="text" name="nama_ruangan" class="form-control" value="{{ $data->nama_ruangan }}">
+                <input type="text" name="nama_barang" class="form-control" value="{{ $barang->nama_barang }}">
                 <br>
                 <label>Ruangan</label>
                 <select class="form-control" name="jurusan_id">
                           @foreach( $ruangan as $ruangan)
-                              <option value="{{ $ruangan->id_ruangan }}" {{ $ruangan->id_ruangan == $data->ruangan_id ? 'selected="selected"' : '' }}> {{ $ruangan->nama_ruangan}} </option>
+                              <option value="{{ $ruangan->id_ruangan }}" {{ $ruangan->id_ruangan == $barang->ruangan_id ? 'selected="selected"' : '' }}> {{ $ruangan->nama_ruangan}} </option>
                           @endforeach
           </select>
               </div>
@@ -46,7 +46,7 @@
              <input type="text" name="created_by" hidden value="{{$barang->created_by}}" class="form-control input-lg" />
             </div>
             <div class="form-group">
-             <input type="text" name="updated_by" hidden value="{{auth()->user()->id}}" class="form-control input-lg" />
+             <input type="text" name="updated_by" hidden value="" class="form-control input-lg" />
             </div>
               <div class="form-group">
                 <button type="submit" class="btn btn-primary">SAVE</button>

@@ -43,7 +43,7 @@
                 <tr>
                   <td>{{ $key + 1 }}</td>
                   <td>{{ $ruangan->nama_ruangan }}</td>
-                  <td>{{ $ruangan->jurusan['nama_jurusan'] }}</td>
+                  <td>{{ $ruangan->nama_jurusan }}</td>
                   <td>
                   <a href="{{ route('ruangan.edit', ['id_ruangan' => $ruangan->id_ruangan]) }}">
                     <button type="button" class="btn btn-sm btn-info">Edit</button>
