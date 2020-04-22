@@ -1,7 +1,7 @@
 @extends('layouts.adminmain')
 @section('content')
+
 <section class="section">
-  
   <div class="section-header">
     <h1>Barang</h1>
   </div>
@@ -22,25 +22,25 @@
               <button type="button" class="btn btn-info">All Data</button>
             </a>
           </div>
-           @if(auth()->user()->role == 'admin')
           <div class="card-header">
             <div class="form-group">
             <a href="{{ route('barang.create') }}">
               <button type="button" class="btn btn-primary">Add New</button>
             </a>
-            &nbsp
             <a href="{{ route('barang.export') }}">
             <button type="button" class="btn btn-success my-3">Export Excel</button>
             </a>
-          </div></div>
+          </div>
+        </div>
            
           <div class="card-body">
           <table class="table table-bordered">
                     <thead>
                         <tr>
                             <th scope="col">No</th>
-                            <th scope="col">Barang</th>
-                            <th scope="col">Ruangan</th>
+                            <th scope="col">Nama Barang</th>
+                            <th scope="col">File</th>
+                            <th scope="col">Nama Ruangan</th>
                             <th scope="col">Total</th>
                             <th scope="col">Rusak</th>
                             <th scope="col">Created by</th>
@@ -49,10 +49,11 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse($data as $key => $barang)
+                        @forelse($data as $key => $barang )
                             <tr>
                                 <td>{{ $data->firstItem()+$key }}</td>
                                 <td>{{ $barang->nama_barang }}</td>
+                                <img src="{{ URL::to('/') }}/images/{{ $barang->image }}" class="img-thumbnail" width="75"/>
                                 <td>{{ $barang->ruangan->nama_ruangan }}</td>
                                 <td>{{ $barang->total }}</td>
                                 <td>{{ $barang->broken }}</td>
@@ -73,13 +74,11 @@
                                 <td>
                                     <a href="{{ route('barang.edit', ['id_barang' => $barang->id_barang]) }}">
                                         <button type="button" class="btn btn-sm btn-warning">Edit</button> </a> 
-                                     
                                     <a href="{{ route('barang.delete', ['id_barang' => $barang->id_barang]) }}"
                                     onclick="return confirm('Delete data?');" 
                                     >
                                     <button type="button" class="btn btn-sm btn-danger">Hapus</button>
                                     </a>
-                                   
                                 </td>
                             </tr>
                         @empty
@@ -89,7 +88,7 @@
                         @endforelse
                     </tbody>
                 </table>
-            {!!$data->links()!!}
+            {!! $data->links() !!}
           </div>
           <div class="card-footer text-right">
             <nav class="d-inline-block">

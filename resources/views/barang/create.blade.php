@@ -1,11 +1,20 @@
 @extends('layouts.adminmain')
-
 @section('content')
+
 <section class="section">
-  
   <div class="section-header">
     <h1>Barang <small>Add Data</small></h1>
   </div>
+
+  @if($errors->any())
+    <div class="alert alert-danger">
+      <ul>
+        @foreach($errors->all() as $error)
+          <li>{{error}}</li>
+        @endforeach
+      </ul>
+    </div>
+  @endif
 
   <div class="section-body">
     <div class="col-12 col-md-6 col-lg-6">
@@ -24,6 +33,14 @@
                 <label>Barang</label>
                 <input type="text" name="nama_barang" class="form-control">
               </div>
+
+            <form action="/proses" method="POST" enctype="multipart/form-data">
+              {{ csrf_field() }}
+              <div class="form-group">
+                <label>File Gambar</label><br>
+                <input type="file" name="image" class="form-control">
+              </div>
+            </form>
               <div class="form-group">
                 <label>Ruangan</label>
                 <select class="form-control" id="ruangan_id" name="ruangan_id" class="form-control">
@@ -45,13 +62,12 @@
                 <input type="text" class="form-control" name="created_by" id="created_by" hidden>
             </div>
               <div class="form-group">
-                <button type="submit" class="btn btn-primary">ADD</button>
+                <button type="submit" name="add" class="btn btn-primary" value="Add">ADD</button>
               </div>
               </form>
           </div>
         </div>
       </div>  
   </div>
-
 </section>
 @endsection()

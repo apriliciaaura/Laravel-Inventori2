@@ -17,6 +17,7 @@ class CreateBarang extends Migration
             $table->bigIncrements('id_barang');
             $table->unsignedBigInteger('ruangan_id');
             $table->string('nama_barang', 100);
+            $table->string('image');
             $table->integer('total');
             $table->integer('broken');
             $table->unsignedBigInteger('created_by')->nullable();

@@ -9,6 +9,16 @@
     </h1>
   </div>
 
+  @if($errors->any())
+    <div class="alert alert-danger">
+      <ul>
+        @foreach($errors->all() as $error)
+          <li>{{error}}</li>
+        @endforeach
+      </ul>
+    </div>
+  @endif
+
   <div class="section-body">
     <div class="col-12 col-md-6 col-lg-6">
         <div class="card">
@@ -26,19 +36,26 @@
               <div class="form-group">
                 <label>Barang</label>
                 <input type="text" name="nama_barang" class="form-control" value="{{ $barang->nama_barang }}">
+                <div class="form-group">
+                <label>Select Product Image</label>
+                  <div class="col-md-8">
+                    <input type="file" name="image"/>
+                      <img src="{{ URL::to('/')}}/images/{{ $barang->image }}" class="img-thumbnail" width="100">
+                        <input type="hidden" name="hidden_image" value="{{ $barang->image }}" class="form-control">
+                  </div>
                 <br>
                 <label>Ruangan</label>
                 <select class="form-control" name="jurusan_id">
                           @foreach( $ruangan as $ruangan)
                               <option value="{{ $ruangan->id_ruangan }}" {{ $ruangan->id_ruangan == $barang->ruangan_id ? 'selected="selected"' : '' }}> {{ $ruangan->nama_ruangan}} </option>
                           @endforeach
-          </select>
+                </select>
               </div>
               <div class="form-group">
                 <label>Total</label>
                 <input type="text" name="total" class="form-control" value="{{ $barang->total }}">
               </div>
-        <div class="form-group">
+              <div class="form-group">
                 <label>Rusak</label>
                 <input type="text" name="broken" class="form-control" value="{{ $barang->broken }}">
               </div>
