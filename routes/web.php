@@ -21,6 +21,8 @@ Route::get('/', function () {
     return view('dashboard.index');
 });
 
+Route::get('/kirimemail','MailController@index');
+
 Route::post('/postlogin', 'AuthController@login')->name('postlogin');
 Route::get('/login', 'AuthController@login')->name('login');
 Route::get('/logout', 'AuthController@logout');
