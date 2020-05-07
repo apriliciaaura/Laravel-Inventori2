@@ -33,6 +33,7 @@ Route::post('fakultas', ['as' => 'fakultas.store', 'uses' => 'FakultasController
 Route::get('fakultas/edit/{id}', ['as' => 'fakultas.edit', 'uses' => 'FakultasController@edit']);
 Route::put('fakultas/edit/{id}', ['as' => 'fakultas.update', 'uses' => 'FakultasController@update']);
 Route::get('fakultas/delete/{id}', ['as' => 'fakultas.delete', 'uses' => 'FakultasController@delete']);
+Route::post('fakultas/import', 'FakultasController@import');
 
 Route::get('jurusan', ['as' => 'jurusan.index', 'uses' => 'JurusanController@index']);
 Route::get('jurusan/create', ['as' => 'jurusan.create', 'uses' => 'JurusanController@create']);

@@ -15,9 +15,11 @@
               <div class="form-group">
                 <input type="text" name="search" class="form-control" placeholder="Search" value="{{ request()->get('search') }}">
               </div>
+              &nbsp
               <div class="form-group">
                 <button type="submit" class="btn btn-primary">Search</button>
               </div>
+              &nbsp
             </form>
             <a href="{{ route('fakultas.index') }}" class="pull-right">
               <button type="button" class="btn btn-info">All Data</button>
@@ -27,7 +29,10 @@
             <a href="{{ route('fakultas.create') }}">
               <button type="button" class="btn btn-primary">Add New</button>
             </a>
+            &nbsp
+            <button type="button" class="btn btn-success my-3" data-toggle="modal" data-target="#myModal">Import Data</button>
           </div>
+           
           <div class="card-body">
             <table class="table table-bordered">
               <thead>
@@ -70,3 +75,25 @@
   </div>
 </section>
 @endsection()
+
+<div id="myModal" class="modal fade" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form method="POST" action="{{ url('/fakultas/import') }}" enctype="multipart/form-data">
+                @csrf
+                    <div class="modal-header">
+                        <h5 class="modal-title">Import Excel</h5>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <label>Upload data Fakultas</label><br>
+                        <input type="file" class="form-control" placeholder="Fakultas" name="excel" accept=".xls, .xlsx">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                        <button type="sumbit" class="btn btn-primary">Tambah</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
